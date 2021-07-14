@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_widgets/utils/form.dart';
+import 'package:flutter_custom_widgets/widgets/f_text.dart';
 import '/utils/spacing.dart';
 import '/utils/validations.dart';
 import '/widgets/f_input_field.dart';
@@ -54,40 +55,51 @@ class _WidgetListScreenState extends State<WidgetListScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              fInputField(
-                controller: _loginController,
-                placeholder: 'Placeholder text',
-                label: 'Label text',
-                focusNode: _loginFocus,
-                onFieldSubmitted: (_) => fieldFocusChange(
-                  context,
-                  _loginFocus,
-                  _passwordFocus,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                fInputField(
+                  controller: _loginController,
+                  placeholder: 'Placeholder text',
+                  label: 'Label text',
+                  focusNode: _loginFocus,
+                  onFieldSubmitted: (_) => fieldFocusChange(
+                    context,
+                    _loginFocus,
+                    _passwordFocus,
+                  ),
+                  validatorCallback: (login) => validateLogin(login),
                 ),
-                validatorCallback: (login) => validateLogin(login),
-              ),
-              hSpaceRegular,
-              fInputField(
-                controller: _passwordController,
-                placeholder: 'Password',
-                focusNode: _passwordFocus,
-                isPassword: hidePassword,
-                validatorCallback: (pass) => validatePassword(pass),
-                trailing: Icon(
-                  hidePassword ? Icons.visibility : Icons.visibility_off,
+                hSpaceRegular,
+                fInputField(
+                  controller: _passwordController,
+                  placeholder: 'Password',
+                  focusNode: _passwordFocus,
+                  isPassword: hidePassword,
+                  validatorCallback: (pass) => validatePassword(pass),
+                  trailing: Icon(
+                    hidePassword ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  trailingTapped: () => setState(
+                    () => hidePassword = !hidePassword,
+                  ),
                 ),
-                trailingTapped: () => setState(
-                  () => hidePassword = !hidePassword,
+                hSpaceLarge,
+                TextButton(
+                  onPressed: _submitFormHandler,
+                  child: const Text('Submit'),
                 ),
-              ),
-              hSpaceLarge,
-              TextButton(
-                onPressed: _submitFormHandler,
-                child: const Text('Submit'),
-              ),
-            ],
+                const Divider(),
+                hSpaceRegular,
+                fText.heading1('Heading 1', context: context),
+                fText.heading2('Heading 2', context: context),
+                fText.heading3('Heading 3', context: context),
+                fText.heading4('Heading 4', context: context),
+                fText.heading5('Heading 5', context: context),
+                fText.heading6('Heading 6', context: context),
+                hSpaceRegular,
+              ],
+            ),
           ),
         ),
       ),
